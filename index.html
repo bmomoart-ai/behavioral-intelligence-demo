@@ -1,0 +1,1551 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Behavioral Intelligence Platform Prototype</title>
+    <style>
+      :root {
+        --ink: #2d3142;
+        --mist: #fbfaff;
+        --sea: #6b7cff;
+        --sky: #32b6dc;
+        --leaf: #4caf7d;
+        --sun: #f0b44d;
+        --coral: #e96573;
+        --plum: #b46ddb;
+        --line: rgba(45, 49, 66, 0.11);
+        --shadow: 0 18px 45px rgba(45, 49, 66, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          linear-gradient(180deg, rgba(251, 250, 255, 0.97), rgba(243, 249, 255, 0.92)),
+          var(--mist);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button {
+        touch-action: manipulation;
+      }
+
+      .demo-banner {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        padding: 10px 16px;
+        background: var(--ink);
+        color: white;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .shell {
+        display: flex;
+        min-height: 100vh;
+        max-width: 1500px;
+        margin: 0 auto;
+      }
+
+      .rail {
+        position: sticky;
+        top: 0;
+        display: flex;
+        width: 112px;
+        height: 100vh;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border-right: 1px solid var(--line);
+        background: white;
+        padding: 18px 14px;
+      }
+
+      .logo,
+      .icon-button {
+        display: grid;
+        width: 58px;
+        height: 58px;
+        place-items: center;
+        border-radius: 8px;
+        font-weight: 900;
+      }
+
+      .logo {
+        background: var(--sea);
+        color: white;
+        box-shadow: var(--shadow);
+      }
+
+      .nav {
+        display: grid;
+        gap: 10px;
+      }
+
+      .icon-button {
+        border: 1px solid var(--line);
+        background: white;
+        color: rgba(45, 49, 66, 0.72);
+        cursor: pointer;
+      }
+
+      .icon-button.active,
+      .primary {
+        border-color: var(--sea);
+        background: var(--sea);
+        color: white;
+      }
+
+      .content {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.84);
+        padding: 24px 32px;
+      }
+
+      .eyebrow {
+        margin: 0;
+        color: var(--sea);
+        font-size: 0.84rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 1;
+      }
+
+      h2 {
+        margin-bottom: 0;
+        font-size: 1.55rem;
+        line-height: 1.1;
+      }
+
+      h3 {
+        margin-bottom: 0;
+        font-size: 1rem;
+      }
+
+      .subcopy {
+        max-width: 760px;
+        margin-bottom: 0;
+        color: rgba(45, 49, 66, 0.7);
+        font-weight: 650;
+        line-height: 1.5;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 50px;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0 16px;
+        background: var(--ink);
+        color: white;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        border-color: var(--line);
+        background: white;
+        color: var(--ink);
+      }
+
+      .button .glyph,
+      .icon-button .glyph {
+        font-weight: 1000;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 20px;
+        padding: 22px 32px 32px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+
+      .span-4 {
+        grid-column: span 4;
+      }
+
+      .span-5 {
+        grid-column: span 5;
+      }
+
+      .span-7 {
+        grid-column: span 7;
+      }
+
+      .span-8 {
+        grid-column: span 8;
+      }
+
+      .span-12 {
+        grid-column: span 12;
+      }
+
+      .panel-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .badge {
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: var(--mist);
+        color: rgba(45, 49, 66, 0.66);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
+      .badge.low {
+        background: var(--leaf);
+        color: white;
+      }
+
+      .badge.moderate {
+        background: var(--sun);
+        color: var(--ink);
+      }
+
+      .badge.high {
+        background: var(--coral);
+        color: white;
+      }
+
+      .dial {
+        position: relative;
+        width: min(100%, 310px);
+        height: 160px;
+        margin: 22px auto 0;
+        overflow: hidden;
+      }
+
+      .dial::before {
+        position: absolute;
+        inset: 0 0 auto;
+        height: 155px;
+        border-radius: 155px 155px 0 0;
+        background: linear-gradient(90deg, var(--leaf), var(--sun), var(--coral));
+        content: "";
+      }
+
+      .dial::after {
+        position: absolute;
+        right: 28px;
+        bottom: 0;
+        left: 28px;
+        height: 130px;
+        border-radius: 130px 130px 0 0;
+        background: white;
+        content: "";
+      }
+
+      .needle {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        z-index: 2;
+        width: 42%;
+        height: 6px;
+        transform-origin: left center;
+        border-radius: 999px;
+        background: var(--ink);
+        transition: transform 0.35s ease;
+      }
+
+      .hub {
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        z-index: 3;
+        width: 24px;
+        height: 24px;
+        transform: translateX(-50%);
+        border: 5px solid white;
+        border-radius: 999px;
+        background: var(--ink);
+      }
+
+      .score {
+        position: absolute;
+        right: 0;
+        bottom: 23px;
+        left: 0;
+        z-index: 4;
+        text-align: center;
+      }
+
+      .score strong {
+        display: block;
+        font-size: 3.7rem;
+        line-height: 1;
+      }
+
+      .score span {
+        color: rgba(45, 49, 66, 0.6);
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .hint {
+        margin: 18px 0 0;
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 16px;
+        color: rgba(45, 49, 66, 0.76);
+        font-weight: 750;
+        line-height: 1.45;
+      }
+
+      .control-stack {
+        display: grid;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      label.range {
+        display: block;
+      }
+
+      label.range span {
+        display: flex;
+        justify-content: space-between;
+        color: rgba(45, 49, 66, 0.7);
+        font-size: 0.9rem;
+        font-weight: 850;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--sea);
+      }
+
+      .toggle {
+        display: flex;
+        min-height: 50px;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 14px;
+        font-weight: 850;
+      }
+
+      .toggle input {
+        width: 24px;
+        height: 24px;
+        accent-color: var(--sea);
+      }
+
+      .insights {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+      }
+
+      .insight {
+        border: 1px solid rgba(240, 180, 77, 0.42);
+        border-radius: 8px;
+        background: rgba(240, 180, 77, 0.13);
+        padding: 16px;
+      }
+
+      .insight:nth-child(2) {
+        border-color: rgba(76, 175, 125, 0.42);
+        background: rgba(76, 175, 125, 0.13);
+      }
+
+      .insight:nth-child(3) {
+        border-color: rgba(233, 101, 115, 0.42);
+        background: rgba(233, 101, 115, 0.13);
+      }
+
+      .insight-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .insight-value {
+        font-size: 1.85rem;
+        font-weight: 1000;
+      }
+
+      .insight p {
+        margin: 12px 0 0;
+        color: rgba(45, 49, 66, 0.7);
+        font-size: 0.92rem;
+        font-weight: 720;
+        line-height: 1.48;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 16px;
+      }
+
+      .chart {
+        display: flex;
+        height: 130px;
+        align-items: end;
+        gap: 9px;
+        margin-top: 14px;
+      }
+
+      .bar {
+        flex: 1;
+        min-width: 16px;
+        border-radius: 7px 7px 0 0;
+        background: var(--sky);
+      }
+
+      .heatmap {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-top: 16px;
+      }
+
+      .cell {
+        aspect-ratio: 1;
+        border: 1px solid white;
+        border-radius: 6px;
+        background: rgba(107, 124, 255, var(--strength));
+      }
+
+      .abc-group {
+        margin-top: 20px;
+      }
+
+      .abc-group p,
+      .support-title {
+        margin-bottom: 10px;
+        color: rgba(45, 49, 66, 0.65);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .pill {
+        min-height: 48px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 0 14px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .pill.active {
+        border-color: var(--sea);
+        background: var(--sea);
+        color: white;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 14px;
+      }
+
+      .metric span {
+        display: block;
+        color: rgba(45, 49, 66, 0.58);
+        font-size: 0.76rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 5px;
+        font-size: 1.7rem;
+      }
+
+      .planner-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .planner-controls {
+        display: grid;
+        gap: 18px;
+      }
+
+      .planner-group p {
+        margin-bottom: 10px;
+        color: rgba(45, 49, 66, 0.65);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .planner-output {
+        border: 1px solid rgba(107, 124, 255, 0.24);
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(107, 124, 255, 0.09), rgba(180, 109, 219, 0.08));
+        padding: 18px;
+      }
+
+      .planner-score {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: center;
+        margin-top: 14px;
+      }
+
+      .planner-score strong {
+        display: grid;
+        width: 74px;
+        height: 74px;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--sea);
+        color: white;
+        font-size: 1.8rem;
+      }
+
+      .planner-track {
+        height: 12px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: white;
+      }
+
+      .planner-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--leaf), var(--sun), var(--coral));
+        transition: width 0.25s ease;
+      }
+
+      .sequence {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .sequence-step {
+        display: flex;
+        gap: 12px;
+        border-radius: 8px;
+        background: white;
+        padding: 12px;
+      }
+
+      .sequence-step span {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--plum);
+        color: white;
+        font-weight: 1000;
+      }
+
+      .sequence-step p {
+        margin: 0;
+        color: rgba(45, 49, 66, 0.78);
+        font-size: 0.92rem;
+        font-weight: 760;
+        line-height: 1.45;
+      }
+
+      .emotion-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .emotion {
+        display: grid;
+        min-height: 112px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(50, 182, 220, 0.11);
+        color: var(--ink);
+        padding: 10px;
+        text-align: center;
+        font-weight: 1000;
+        cursor: pointer;
+      }
+
+      .emotion.active {
+        border-color: var(--sea);
+        background: var(--sea);
+        color: white;
+      }
+
+      .emotion span {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.88);
+        color: var(--ink);
+        font-size: 1.6rem;
+      }
+
+      .state-row {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 15px;
+        margin-top: 18px;
+      }
+
+      .state-box {
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 16px;
+      }
+
+      .state-box strong {
+        display: block;
+        margin-top: 3px;
+        font-size: 2rem;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .field span {
+        display: block;
+        color: rgba(45, 49, 66, 0.65);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .field input {
+        width: 100%;
+        min-height: 50px;
+        margin-top: 8px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 12px;
+        color: var(--ink);
+        font-weight: 760;
+      }
+
+      .story {
+        display: grid;
+        gap: 10px;
+        margin-top: 18px;
+        border-radius: 8px;
+        background: rgba(180, 109, 219, 0.12);
+        padding: 16px;
+      }
+
+      .story-line {
+        display: flex;
+        gap: 12px;
+        border-radius: 8px;
+        background: white;
+        padding: 12px;
+      }
+
+      .story-line span {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--plum);
+        color: white;
+        font-weight: 1000;
+      }
+
+      .story-line p {
+        margin: 0;
+        color: rgba(45, 49, 66, 0.8);
+        font-size: 0.92rem;
+        font-weight: 720;
+        line-height: 1.5;
+      }
+
+      .timeline-grid {
+        display: grid;
+        grid-template-columns: 1fr 0.88fr;
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+      }
+
+      .note {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 15px;
+      }
+
+      .note-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .avatar {
+        display: grid;
+        width: 40px;
+        height: 40px;
+        place-items: center;
+        border-radius: 8px;
+        background: rgba(50, 182, 220, 0.16);
+        color: var(--sky);
+        font-weight: 1000;
+      }
+
+      .note-id {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .note p {
+        margin: 12px 0 0;
+        color: rgba(45, 49, 66, 0.72);
+        font-size: 0.92rem;
+        font-weight: 720;
+        line-height: 1.45;
+      }
+
+      .progress-box {
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 16px;
+      }
+
+      .program {
+        margin-top: 17px;
+      }
+
+      .program-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        color: rgba(45, 49, 66, 0.72);
+        font-size: 0.9rem;
+        font-weight: 850;
+      }
+
+      .track {
+        height: 12px;
+        margin-top: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: white;
+      }
+
+      .fill {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--sea);
+      }
+
+      .guardrails {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .guardrail {
+        border-radius: 8px;
+        padding: 14px;
+        font-weight: 900;
+      }
+
+      .guardrail.good {
+        background: rgba(76, 175, 125, 0.14);
+        color: var(--leaf);
+      }
+
+      .guardrail.stop {
+        background: rgba(233, 101, 115, 0.14);
+        color: var(--coral);
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 4px solid var(--sky);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 1180px) {
+        .shell {
+          display: block;
+        }
+
+        .rail {
+          position: static;
+          width: 100%;
+          height: auto;
+          flex-direction: row;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+          display: flex;
+        }
+
+        .grid {
+          grid-template-columns: repeat(8, 1fr);
+        }
+
+        .span-4,
+        .span-5,
+        .span-7,
+        .span-8,
+        .span-12 {
+          grid-column: span 8;
+        }
+
+      }
+
+      @media (min-width: 1400px) {
+        .emotion-grid {
+          grid-template-columns: repeat(7, 1fr);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .topbar {
+          align-items: stretch;
+          flex-direction: column;
+          padding: 20px;
+        }
+
+        .grid {
+          display: block;
+          padding: 18px;
+        }
+
+        .panel {
+          margin-bottom: 18px;
+        }
+
+        .insights,
+        .two-col,
+        .planner-grid,
+        .state-row,
+        .form-grid,
+        .timeline-grid,
+        .guardrails {
+          grid-template-columns: 1fr;
+        }
+
+        .emotion-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .actions .button,
+        .button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-banner">Public demo uses fictional data only. Not diagnostic.</div>
+    <main class="shell">
+      <aside class="rail" aria-label="Primary navigation">
+        <div class="logo" aria-label="Platform logo">BI</div>
+        <nav class="nav">
+          <button class="icon-button active" title="Home"><span class="glyph">H</span></button>
+          <button class="icon-button" title="Log"><span class="glyph">+</span></button>
+          <button class="icon-button" title="Insights"><span class="glyph">*</span></button>
+          <button class="icon-button" title="Team"><span class="glyph">T</span></button>
+        </nav>
+        <button class="icon-button" title="Voice support"><span class="glyph">V</span></button>
+      </aside>
+
+      <section class="content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Behavioral Intelligence Platform</p>
+            <h1>Maya is having a steady morning.</h1>
+            <p class="subcopy">
+              Patterns shown here are suggestions for care planning and should be reviewed by the care team.
+            </p>
+          </div>
+          <div class="actions">
+            <button class="button secondary"><span class="glyph">M</span> Dictate Note</button>
+            <button class="button primary"><span class="glyph">+</span> Log Event</button>
+          </div>
+        </header>
+
+        <div class="grid">
+          <section class="panel span-4">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Today</p>
+                <h2>Risk forecast</h2>
+              </div>
+              <span id="riskBadge" class="badge moderate">Moderate Risk</span>
+            </div>
+            <div class="dial" aria-label="Behavior risk score">
+              <div id="needle" class="needle"></div>
+              <div class="hub"></div>
+              <div class="score">
+                <strong id="score">58</strong>
+                <span>Behavior Risk Score</span>
+              </div>
+            </div>
+            <p id="riskHint" class="hint">
+              Prepare visual supports and check communication needs before changes.
+            </p>
+            <div class="control-stack">
+              <label class="range">
+                <span>Sleep quality <b id="sleepLabel">78%</b></span>
+                <input id="sleep" type="range" min="0" max="100" value="78" />
+              </label>
+              <label class="range">
+                <span>Sensory load <b id="sensoryLabel">36%</b></span>
+                <input id="sensory" type="range" min="0" max="100" value="36" />
+              </label>
+              <label class="range">
+                <span>Communication difficulty <b id="communicationLabel">32%</b></span>
+                <input id="communication" type="range" min="0" max="100" value="32" />
+              </label>
+              <label class="toggle">
+                Schedule disruption
+                <input id="disruption" type="checkbox" />
+              </label>
+            </div>
+          </section>
+
+          <section class="panel span-8">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">AI-Assisted Pattern Detection</p>
+                <h2>Why it might be happening</h2>
+              </div>
+              <span class="badge">Updated after 18 logs</span>
+            </div>
+            <div class="insights">
+              <article class="insight">
+                <div class="insight-row">
+                  <h3>Transition Pattern</h3>
+                  <span class="insight-value">72%</span>
+                </div>
+                <p>Transitions away from preferred activities appear before most tantrum events this week.</p>
+              </article>
+              <article class="insight">
+                <div class="insight-row">
+                  <h3>Helpful Support</h3>
+                  <span class="insight-value">34%</span>
+                </div>
+                <p>Visual schedules appear to reduce behavioral intensity during morning routines.</p>
+              </article>
+              <article class="insight">
+                <div class="insight-row">
+                  <h3>Watch Window</h3>
+                  <span class="insight-value">3-5 PM</span>
+                </div>
+                <p>Late afternoon may be a higher-risk period when sleep quality is below baseline.</p>
+              </article>
+            </div>
+            <div class="two-col">
+              <div class="mini-card">
+                <h3>Weekly behavior trend</h3>
+                <div class="chart" aria-label="Weekly behavior trend bar chart">
+                  <div class="bar" style="height: 42%"></div>
+                  <div class="bar" style="height: 55%"></div>
+                  <div class="bar" style="height: 50%"></div>
+                  <div class="bar" style="height: 72%"></div>
+                  <div class="bar" style="height: 61%"></div>
+                  <div class="bar" style="height: 44%"></div>
+                  <div class="bar" style="height: 36%"></div>
+                </div>
+              </div>
+              <div class="mini-card">
+                <h3>Trigger frequency</h3>
+                <div class="heatmap" aria-label="Trigger frequency heatmap">
+                  <div class="cell" style="--strength: .18"></div>
+                  <div class="cell" style="--strength: .26"></div>
+                  <div class="cell" style="--strength: .34"></div>
+                  <div class="cell" style="--strength: .23"></div>
+                  <div class="cell" style="--strength: .16"></div>
+                  <div class="cell" style="--strength: .12"></div>
+                  <div class="cell" style="--strength: .1"></div>
+                  <div class="cell" style="--strength: .28"></div>
+                  <div class="cell" style="--strength: .45"></div>
+                  <div class="cell" style="--strength: .52"></div>
+                  <div class="cell" style="--strength: .39"></div>
+                  <div class="cell" style="--strength: .26"></div>
+                  <div class="cell" style="--strength: .17"></div>
+                  <div class="cell" style="--strength: .12"></div>
+                  <div class="cell" style="--strength: .37"></div>
+                  <div class="cell" style="--strength: .64"></div>
+                  <div class="cell" style="--strength: .82"></div>
+                  <div class="cell" style="--strength: .63"></div>
+                  <div class="cell" style="--strength: .31"></div>
+                  <div class="cell" style="--strength: .2"></div>
+                  <div class="cell" style="--strength: .17"></div>
+                  <div class="cell" style="--strength: .26"></div>
+                  <div class="cell" style="--strength: .43"></div>
+                  <div class="cell" style="--strength: .6"></div>
+                  <div class="cell" style="--strength: .49"></div>
+                  <div class="cell" style="--strength: .29"></div>
+                  <div class="cell" style="--strength: .14"></div>
+                  <div class="cell" style="--strength: .13"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel span-12">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Try Next Planner</p>
+                <h2>Build a prevention plan</h2>
+              </div>
+              <span id="plannerBadge" class="badge">Potential support</span>
+            </div>
+            <div class="planner-grid">
+              <div class="planner-controls">
+                <div class="planner-group" data-plan-group="trigger">
+                  <p>Likely trigger</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Transition">Transition</button>
+                    <button class="pill" data-value="Loud noise">Loud noise</button>
+                    <button class="pill" data-value="Task demand">Task demand</button>
+                    <button class="pill" data-value="Denied access">Denied access</button>
+                  </div>
+                </div>
+                <div class="planner-group" data-plan-group="state">
+                  <p>Current state</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Overwhelmed">Overwhelmed</button>
+                    <button class="pill" data-value="Frustrated">Frustrated</button>
+                    <button class="pill" data-value="Tired">Tired</button>
+                    <button class="pill" data-value="Excited">Excited</button>
+                  </div>
+                </div>
+                <div class="planner-group" data-plan-group="setting">
+                  <p>Setting</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Home">Home</button>
+                    <button class="pill" data-value="School">School</button>
+                    <button class="pill" data-value="Therapy">Therapy</button>
+                  </div>
+                </div>
+              </div>
+              <div class="planner-output">
+                <h3 id="plannerTitle">Visual transition plan</h3>
+                <p id="plannerSummary" class="subcopy"></p>
+                <div class="planner-score">
+                  <strong id="plannerScore">44</strong>
+                  <div>
+                    <div class="program-row"><span>Projected risk after supports</span><b id="plannerDelta">-18 pts</b></div>
+                    <div class="planner-track"><div id="plannerFill" class="planner-fill" style="width: 44%"></div></div>
+                  </div>
+                </div>
+                <div id="plannerSequence" class="sequence"></div>
+                <button id="addPlanNote" class="button" style="width: 100%; margin-top: 16px">Add Plan to Timeline</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel span-5">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Behavior Tracking</p>
+                <h2>Fast ABC log</h2>
+              </div>
+              <span class="badge">ABC</span>
+            </div>
+            <div class="abc-group" data-group="antecedent">
+              <p>Antecedent</p>
+              <div class="pill-row">
+                <button class="pill">Denied access</button>
+                <button class="pill active">Transition</button>
+                <button class="pill">Loud noise</button>
+                <button class="pill">Task demand</button>
+              </div>
+            </div>
+            <div class="abc-group" data-group="behavior">
+              <p>Behavior</p>
+              <div class="pill-row">
+                <button class="pill active">Tantrum</button>
+                <button class="pill">Elopement</button>
+                <button class="pill">Aggression</button>
+                <button class="pill">Non-compliance</button>
+              </div>
+            </div>
+            <div class="abc-group" data-group="consequence">
+              <p>Consequence</p>
+              <div class="pill-row">
+                <button class="pill active">Visual schedule</button>
+                <button class="pill">Quiet space</button>
+                <button class="pill">First/then</button>
+                <button class="pill">Prompted request</button>
+              </div>
+            </div>
+            <div class="metric-grid">
+              <div class="metric"><span>Frequency</span><strong>3</strong></div>
+              <div class="metric"><span>Duration</span><strong>8m</strong></div>
+              <div class="metric"><span>Intensity</span><strong>4/5</strong></div>
+            </div>
+          </section>
+
+          <section class="panel span-7">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Emotional Regulation Center</p>
+                <h2>Visual check-in</h2>
+              </div>
+              <button class="button secondary">Read Aloud</button>
+            </div>
+            <div class="emotion-grid" id="emotionGrid">
+              <button class="emotion" data-support="Movement break"><span>H</span>Happy</button>
+              <button class="emotion" data-support="Quiet space"><span>S</span>Sad</button>
+              <button class="emotion" data-support="Communication support"><span>F</span>Frustrated</button>
+              <button class="emotion" data-support="Deep breathing"><span>A</span>Angry</button>
+              <button class="emotion active" data-support="Sensory break"><span>O</span>Overwhelmed</button>
+              <button class="emotion" data-support="Quiet space"><span>T</span>Tired</button>
+              <button class="emotion" data-support="Movement break"><span>E</span>Excited</button>
+            </div>
+            <div class="state-row">
+              <div class="state-box">
+                <p class="eyebrow">Current state</p>
+                <strong id="emotionLabel">Overwhelmed</strong>
+                <p id="supportHint" class="subcopy">Sensory break is suggested as a potential first support.</p>
+              </div>
+              <div class="mini-card">
+                <p class="support-title">Recommended support</p>
+                <div class="pill-row" id="supportPills">
+                  <button class="pill">Deep breathing</button>
+                  <button class="pill active">Sensory break</button>
+                  <button class="pill">Movement break</button>
+                  <button class="pill">Quiet space</button>
+                  <button class="pill">Communication support</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel span-5">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Social Story Generator</p>
+                <h2>Practice what comes next</h2>
+              </div>
+              <span class="badge">Story</span>
+            </div>
+            <div class="form-grid">
+              <label class="field">
+                <span>Child name</span>
+                <input id="childName" value="Maya" />
+              </label>
+              <label class="field">
+                <span>Situation</span>
+                <input id="situation" value="Going to the dentist" />
+              </label>
+            </div>
+            <div id="story" class="story"></div>
+          </section>
+
+          <section class="panel span-7">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Care Team Dashboard</p>
+                <h2>Shared timeline</h2>
+              </div>
+              <span class="badge">Team</span>
+            </div>
+            <div class="timeline-grid">
+              <div id="teamTimeline" class="timeline">
+                <article class="note">
+                  <div class="note-head">
+                    <div class="note-id"><span class="avatar">P</span><div><h3>Parent</h3><small>7:40 AM</small></div></div>
+                    <span class="badge">Home</span>
+                  </div>
+                  <p>Slept 6.5 hours. Breakfast was smaller than usual.</p>
+                </article>
+                <article class="note">
+                  <div class="note-head">
+                    <div class="note-id"><span class="avatar">T</span><div><h3>Teacher</h3><small>11:15 AM</small></div></div>
+                    <span class="badge">School</span>
+                  </div>
+                  <p>Used visual choice board before music class transition.</p>
+                </article>
+                <article class="note">
+                  <div class="note-head">
+                    <div class="note-id"><span class="avatar">R</span><div><h3>RBT</h3><small>2:05 PM</small></div></div>
+                    <span class="badge">Therapy</span>
+                  </div>
+                  <p>Mand training: 8 independent requests, 2 prompted.</p>
+                </article>
+              </div>
+              <div class="progress-box">
+                <h3>Program progress</h3>
+                <div class="program">
+                  <div class="program-row"><span>Functional communication</span><b>+8%</b></div>
+                  <div class="track"><div class="fill" style="width: 76%"></div></div>
+                </div>
+                <div class="program">
+                  <div class="program-row"><span>Waiting tolerance</span><b>+4%</b></div>
+                  <div class="track"><div class="fill" style="width: 58%"></div></div>
+                </div>
+                <div class="program">
+                  <div class="program-row"><span>Transition routine</span><b>+11%</b></div>
+                  <div class="track"><div class="fill" style="width: 64%"></div></div>
+                </div>
+                <button class="button" style="width: 100%; margin-top: 24px">Review Report</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel span-12">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Clinical Guardrails</p>
+                <h2>AI language stays cautious</h2>
+              </div>
+              <div class="guardrails">
+                <div class="guardrail good">Use possible, likely, suggested, potential</div>
+                <div class="guardrail stop">No diagnosis or definitive medical conclusions</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const sleep = document.getElementById("sleep");
+      const sensory = document.getElementById("sensory");
+      const communication = document.getElementById("communication");
+      const disruption = document.getElementById("disruption");
+      const scoreEl = document.getElementById("score");
+      const badge = document.getElementById("riskBadge");
+      const hint = document.getElementById("riskHint");
+      const needle = document.getElementById("needle");
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function updateRisk() {
+        const sleepRisk = 100 - Number(sleep.value);
+        const disruptionRisk = disruption.checked ? 18 : 0;
+        const score = clamp(
+          Math.round(
+            sleepRisk * 0.28 +
+              Number(sensory.value) * 0.28 +
+              Number(communication.value) * 0.24 +
+              disruptionRisk +
+              8
+          ),
+          0,
+          100
+        );
+
+        scoreEl.textContent = score;
+        needle.style.transform = `rotate(${Math.round((score / 100) * 180)}deg)`;
+        document.getElementById("sleepLabel").textContent = `${sleep.value}%`;
+        document.getElementById("sensoryLabel").textContent = `${sensory.value}%`;
+        document.getElementById("communicationLabel").textContent = `${communication.value}%`;
+
+        badge.className = "badge";
+        if (score >= 68) {
+          badge.textContent = "High Risk";
+          badge.classList.add("high");
+          hint.textContent = "Offer proactive regulation support and reduce transition demands.";
+        } else if (score >= 38) {
+          badge.textContent = "Moderate Risk";
+          badge.classList.add("moderate");
+          hint.textContent =
+            "Prepare visual supports and check communication needs before changes.";
+        } else {
+          badge.textContent = "Low Risk";
+          badge.classList.add("low");
+          hint.textContent =
+            "Keep routines predictable and reinforce successful coping strategies.";
+        }
+      }
+
+      [sleep, sensory, communication, disruption].forEach((control) => {
+        control.addEventListener("input", updateRisk);
+        control.addEventListener("change", updateRisk);
+      });
+      updateRisk();
+
+      document.querySelectorAll(".abc-group").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          if (!event.target.classList.contains("pill")) return;
+          group.querySelectorAll(".pill").forEach((pill) => pill.classList.remove("active"));
+          event.target.classList.add("active");
+        });
+      });
+
+      const emotionGrid = document.getElementById("emotionGrid");
+      const emotionLabel = document.getElementById("emotionLabel");
+      const supportHint = document.getElementById("supportHint");
+      const supportPills = document.getElementById("supportPills");
+
+      function chooseSupport(name) {
+        supportPills.querySelectorAll(".pill").forEach((pill) => {
+          pill.classList.toggle("active", pill.textContent === name);
+        });
+        supportHint.textContent = `${name} is suggested as a potential first support.`;
+      }
+
+      emotionGrid.addEventListener("click", (event) => {
+        const button = event.target.closest(".emotion");
+        if (!button) return;
+        emotionGrid.querySelectorAll(".emotion").forEach((emotion) => emotion.classList.remove("active"));
+        button.classList.add("active");
+        emotionLabel.textContent = button.textContent.trim().slice(1);
+        chooseSupport(button.dataset.support);
+      });
+
+      supportPills.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("pill")) return;
+        chooseSupport(event.target.textContent);
+      });
+
+      const childName = document.getElementById("childName");
+      const situation = document.getElementById("situation");
+      const story = document.getElementById("story");
+
+      function renderStory() {
+        const name = childName.value.trim() || "Your child";
+        const eventName = situation.value.trim() || "a new routine";
+        const lines = [
+          `${name} is getting ready for ${eventName}.`,
+          "First, we will look at the visual schedule and see what comes next.",
+          `${name} can ask for a break, headphones, or help at any time.`,
+          "When the visit is finished, we will celebrate trying something brave."
+        ];
+
+        story.innerHTML = lines
+          .map(
+            (line, index) =>
+              `<div class="story-line"><span>${index + 1}</span><p>${line}</p></div>`
+          )
+          .join("");
+      }
+
+      childName.addEventListener("input", renderStory);
+      situation.addEventListener("input", renderStory);
+      renderStory();
+
+      const planState = {
+        trigger: "Transition",
+        state: "Overwhelmed",
+        setting: "Home"
+      };
+
+      const planContent = {
+        Transition: {
+          title: "Visual transition plan",
+          support: "Visual schedule",
+          score: 44,
+          delta: "-18 pts",
+          steps: [
+            "Show the next activity with a first/then board and a two-minute countdown.",
+            "Offer one regulated choice before the transition, such as walking together or carrying a preferred item.",
+            "Reinforce the first calm step toward the new activity with specific praise."
+          ]
+        },
+        "Loud noise": {
+          title: "Sensory buffer plan",
+          support: "Sensory break",
+          score: 39,
+          delta: "-21 pts",
+          steps: [
+            "Move toward a quieter space or offer headphones before the loud activity begins.",
+            "Use a simple visual card to show when the sound will stop or when a break is available.",
+            "Return gradually with a predictable job, such as holding the schedule or choosing a seat."
+          ]
+        },
+        "Task demand": {
+          title: "Demand easing plan",
+          support: "Prompted request",
+          score: 48,
+          delta: "-14 pts",
+          steps: [
+            "Reduce the first task step and model a short help request before presenting the demand.",
+            "Use a work-then-break rhythm with a clear finish point.",
+            "Reinforce communication attempts before increasing task length."
+          ]
+        },
+        "Denied access": {
+          title: "Waiting support plan",
+          support: "Communication support",
+          score: 52,
+          delta: "-12 pts",
+          steps: [
+            "Validate the request with brief language and show when the item or activity may be available.",
+            "Offer two alternative choices that meet a similar need when possible.",
+            "Practice a replacement phrase or AAC request for wait, help, or different choice."
+          ]
+        }
+      };
+
+      const stateAdjustments = {
+        Overwhelmed: { score: 6, phrase: "Because Maya appears overwhelmed, start with lower language and more visual support." },
+        Frustrated: { score: 4, phrase: "Because frustration is showing, make communication easier before adding demands." },
+        Tired: { score: 8, phrase: "Because tiredness may raise effort, shorten the routine and add recovery time." },
+        Excited: { score: 2, phrase: "Because excitement is high, add movement and a clear finish cue." }
+      };
+
+      const settingPhrases = {
+        Home: "Caregivers can try this before the next routine change.",
+        School: "The school team can try this before the next classroom transition.",
+        Therapy: "The therapy team can try this before the next programmed demand."
+      };
+
+      const plannerTitle = document.getElementById("plannerTitle");
+      const plannerSummary = document.getElementById("plannerSummary");
+      const plannerScore = document.getElementById("plannerScore");
+      const plannerDelta = document.getElementById("plannerDelta");
+      const plannerFill = document.getElementById("plannerFill");
+      const plannerSequence = document.getElementById("plannerSequence");
+      const plannerBadge = document.getElementById("plannerBadge");
+
+      function renderPlanner() {
+        const base = planContent[planState.trigger];
+        const adjustment = stateAdjustments[planState.state];
+        const projectedScore = clamp(base.score + adjustment.score, 0, 100);
+        plannerTitle.textContent = base.title;
+        plannerBadge.textContent = base.support;
+        plannerSummary.textContent = `${planState.trigger} may be contributing in ${planState.setting.toLowerCase()}. ${adjustment.phrase} ${settingPhrases[planState.setting]}`;
+        plannerScore.textContent = projectedScore;
+        plannerDelta.textContent = base.delta;
+        plannerFill.style.width = `${projectedScore}%`;
+        plannerSequence.innerHTML = base.steps
+          .map(
+            (step, index) =>
+              `<div class="sequence-step"><span>${index + 1}</span><p>${step}</p></div>`
+          )
+          .join("");
+      }
+
+      document.querySelectorAll("[data-plan-group]").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          const button = event.target.closest(".pill");
+          if (!button) return;
+          group.querySelectorAll(".pill").forEach((pill) => pill.classList.remove("active"));
+          button.classList.add("active");
+          planState[group.dataset.planGroup] = button.dataset.value;
+          renderPlanner();
+        });
+      });
+
+      document.getElementById("addPlanNote").addEventListener("click", () => {
+        const base = planContent[planState.trigger];
+        const timeline = document.getElementById("teamTimeline");
+        const note = document.createElement("article");
+        note.className = "note";
+        note.innerHTML = `
+          <div class="note-head">
+            <div class="note-id"><span class="avatar">A</span><div><h3>AI Planner</h3><small>Now</small></div></div>
+            <span class="badge">${planState.setting}</span>
+          </div>
+          <p>Suggested ${base.support.toLowerCase()} for ${planState.trigger.toLowerCase()} while Maya appears ${planState.state.toLowerCase()}. This is a potential support plan for team review.</p>
+        `;
+        timeline.prepend(note);
+      });
+
+      renderPlanner();
+    </script>
+  </body>
+</html>
