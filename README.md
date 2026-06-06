@@ -1,28 +1,24 @@
-# Behavioral Intelligence Platform Public Demo
+# Behavioral Intelligence Platform Demo
 
-This folder is a static public-demo package.
+Live demo: https://bmomoart-ai.github.io/behavioral-intelligence-demo/
 
-## What to Upload
+An interactive public demo for an autism care-team behavioral intelligence platform.
 
-Upload the contents of this folder to a static hosting service:
+This fictional demo shows how parents, teachers, RBTs, and BCBAs could explore behavior patterns, risk signals, emotional check-ins, social stories, and suggested next-step supports.
 
-- `index.html`
-- `README.md` is optional and does not need to be public.
+## Demo Notes
 
-## Demo Safety Rules
+- Fictional data only
+- Not diagnostic
+- Not medical or clinical advice
+- No real child, family, school, or therapy data is collected
 
-- Use fake child names and fake care-team data only.
-- Do not collect emails, health information, school records, or therapy records.
-- Do not describe the demo as diagnostic.
-- Use language like possible, likely, suggested, and potential.
-- Add a visible note anywhere you share it: "Demo uses fictional data."
+## Features Shown
 
-## Easy Hosting Options
-
-- Netlify Drop: drag this folder into the deploy screen.
-- Vercel: import this folder as a static project.
-- GitHub Pages: commit this folder contents and publish from the repository.
-
-## Suggested Demo Password
-
-If your hosting provider supports password protection, use it while sharing early versions.
+- Behavior risk score
+- AI-style pattern insights
+- ABC behavior logging
+- Emotional regulation check-in
+- Try Next Planner
+- Social story generator
+- Care team timeline
