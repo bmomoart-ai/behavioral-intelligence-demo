@@ -34,7 +34,8 @@
       }
 
       button,
-      input {
+      input,
+      textarea {
         font: inherit;
       }
 
@@ -191,6 +192,138 @@
         border-color: var(--line);
         background: white;
         color: var(--ink);
+      }
+
+      .modal-backdrop[hidden],
+      .wizard-page[hidden] {
+        display: none;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: grid;
+        place-items: center;
+        overflow-y: auto;
+        background: rgba(45, 49, 66, 0.46);
+        padding: 20px;
+      }
+
+      .log-modal {
+        width: min(760px, 100%);
+        max-height: min(92vh, 860px);
+        overflow-y: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 24px 70px rgba(45, 49, 66, 0.22);
+        padding: 22px;
+      }
+
+      .modal-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .close-button {
+        display: grid;
+        width: 44px;
+        height: 44px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: var(--ink);
+        font-size: 1.3rem;
+        font-weight: 1000;
+        cursor: pointer;
+      }
+
+      .wizard-progress {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .wizard-dot {
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 10px;
+        color: rgba(45, 49, 66, 0.62);
+        font-size: 0.84rem;
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .wizard-dot.active {
+        background: var(--sea);
+        color: white;
+      }
+
+      .wizard-body {
+        margin-top: 18px;
+      }
+
+      .wizard-group {
+        margin-top: 18px;
+      }
+
+      .wizard-group p {
+        margin-bottom: 10px;
+        color: rgba(45, 49, 66, 0.65);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .wizard-summary {
+        margin-top: 18px;
+        border: 1px solid rgba(107, 124, 255, 0.22);
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(107, 124, 255, 0.08), rgba(50, 182, 220, 0.08));
+        padding: 15px;
+      }
+
+      .wizard-summary p {
+        margin: 8px 0 0;
+        color: rgba(45, 49, 66, 0.74);
+        font-weight: 740;
+        line-height: 1.45;
+      }
+
+      .note-input {
+        width: 100%;
+        min-height: 110px;
+        resize: vertical;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      .wizard-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .demo-toast {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 60;
+        max-width: 360px;
+        border-radius: 8px;
+        background: var(--ink);
+        color: white;
+        padding: 14px 16px;
+        font-weight: 900;
+        box-shadow: var(--shadow);
       }
 
       .button .glyph,
@@ -634,6 +767,103 @@
         line-height: 1.45;
       }
 
+      .report-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 18px;
+        margin-top: 20px;
+      }
+
+      .report-controls {
+        display: grid;
+        gap: 18px;
+      }
+
+      .report-group p {
+        margin-bottom: 10px;
+        color: rgba(45, 49, 66, 0.65);
+        font-size: 0.9rem;
+        font-weight: 900;
+      }
+
+      .report-output {
+        border: 1px solid rgba(50, 182, 220, 0.24);
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(50, 182, 220, 0.09), rgba(107, 124, 255, 0.08));
+        padding: 18px;
+      }
+
+      .report-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .report-metric {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        padding: 12px;
+      }
+
+      .report-metric span {
+        display: block;
+        color: rgba(45, 49, 66, 0.58);
+        font-size: 0.72rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .report-metric strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 1.45rem;
+      }
+
+      .report-columns {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .report-list {
+        border-radius: 8px;
+        background: white;
+        padding: 14px;
+      }
+
+      .report-list h3 {
+        margin-bottom: 10px;
+      }
+
+      .report-list ul {
+        display: grid;
+        gap: 9px;
+        margin: 0;
+        padding-left: 18px;
+        color: rgba(45, 49, 66, 0.74);
+        font-size: 0.92rem;
+        font-weight: 740;
+        line-height: 1.45;
+      }
+
+      .report-actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .copy-status {
+        min-height: 20px;
+        margin: 10px 0 0;
+        color: var(--sea);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
       .emotion-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -922,6 +1152,8 @@
         .insights,
         .two-col,
         .planner-grid,
+        .report-grid,
+        .report-columns,
         .state-row,
         .form-grid,
         .timeline-grid,
@@ -934,8 +1166,19 @@
         }
 
         .actions .button,
-        .button {
+        .button,
+        .report-actions {
           width: 100%;
+          grid-template-columns: 1fr;
+        }
+
+        .wizard-progress,
+        .wizard-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .report-metrics {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -947,7 +1190,7 @@
         <div class="logo" aria-label="Platform logo">BI</div>
         <nav class="nav">
           <button class="icon-button active" title="Home"><span class="glyph">H</span></button>
-          <button class="icon-button" title="Log"><span class="glyph">+</span></button>
+          <button class="icon-button open-log-wizard" title="Log"><span class="glyph">+</span></button>
           <button class="icon-button" title="Insights"><span class="glyph">*</span></button>
           <button class="icon-button" title="Team"><span class="glyph">T</span></button>
         </nav>
@@ -965,7 +1208,7 @@
           </div>
           <div class="actions">
             <button class="button secondary"><span class="glyph">M</span> Dictate Note</button>
-            <button class="button primary"><span class="glyph">+</span> Log Event</button>
+            <button class="button primary open-log-wizard"><span class="glyph">+</span> Log Event</button>
           </div>
         </header>
 
@@ -1178,9 +1421,9 @@
               </div>
             </div>
             <div class="metric-grid">
-              <div class="metric"><span>Frequency</span><strong>3</strong></div>
-              <div class="metric"><span>Duration</span><strong>8m</strong></div>
-              <div class="metric"><span>Intensity</span><strong>4/5</strong></div>
+              <div class="metric"><span>Frequency</span><strong id="frequencyMetric">3</strong></div>
+              <div class="metric"><span>Duration</span><strong id="durationMetric">8m</strong></div>
+              <div class="metric"><span>Intensity</span><strong id="intensityMetric">4/5</strong></div>
             </div>
           </section>
 
@@ -1239,6 +1482,69 @@
               </label>
             </div>
             <div id="story" class="story"></div>
+          </section>
+
+          <section class="panel span-12">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">Behavior Report Generator</p>
+                <h2>Create a care-team summary</h2>
+              </div>
+              <span id="reportBadge" class="badge">Weekly report</span>
+            </div>
+            <div class="report-grid">
+              <div class="report-controls">
+                <div class="report-group" data-report-group="range">
+                  <p>Time range</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Week">This week</button>
+                    <button class="pill" data-value="Month">This month</button>
+                    <button class="pill" data-value="Quarter">90 days</button>
+                  </div>
+                </div>
+                <div class="report-group" data-report-group="focus">
+                  <p>Focus behavior</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Tantrum">Tantrum</button>
+                    <button class="pill" data-value="Elopement">Elopement</button>
+                    <button class="pill" data-value="Aggression">Aggression</button>
+                    <button class="pill" data-value="Transitions">Transitions</button>
+                  </div>
+                </div>
+                <div class="report-group" data-report-group="audience">
+                  <p>Audience</p>
+                  <div class="pill-row">
+                    <button class="pill active" data-value="Parent">Parent</button>
+                    <button class="pill" data-value="BCBA">BCBA</button>
+                    <button class="pill" data-value="Teacher">Teacher</button>
+                  </div>
+                </div>
+              </div>
+              <div class="report-output">
+                <h3 id="reportTitle">Weekly parent summary</h3>
+                <p id="reportSummary" class="subcopy"></p>
+                <div class="report-metrics">
+                  <div class="report-metric"><span>Events</span><strong id="reportEvents">18</strong></div>
+                  <div class="report-metric"><span>Top Window</span><strong id="reportWindow">3-5 PM</strong></div>
+                  <div class="report-metric"><span>Best Support</span><strong id="reportSupport">Visual schedule</strong></div>
+                </div>
+                <div class="report-columns">
+                  <div class="report-list">
+                    <h3>Pattern highlights</h3>
+                    <ul id="reportFindings"></ul>
+                  </div>
+                  <div class="report-list">
+                    <h3>Suggested next supports</h3>
+                    <ul id="reportSupports"></ul>
+                  </div>
+                </div>
+                <div class="report-actions">
+                  <button id="copyReport" class="button secondary">Copy Report Text</button>
+                  <button id="addReportNote" class="button">Add Summary to Timeline</button>
+                </div>
+                <p id="copyStatus" class="copy-status"></p>
+              </div>
+            </div>
           </section>
 
           <section class="panel span-7">
@@ -1308,7 +1614,204 @@
       </section>
     </main>
 
+    <div id="logWizard" class="modal-backdrop" hidden>
+      <section class="log-modal" role="dialog" aria-modal="true" aria-labelledby="logWizardTitle">
+        <div class="modal-top">
+          <div>
+            <p class="eyebrow">Behavior Log Wizard</p>
+            <h2 id="logWizardTitle">Log a behavior event</h2>
+            <p class="subcopy">Capture what happened, what it looked like, and what support may have helped.</p>
+          </div>
+          <button id="closeLogWizard" class="close-button" aria-label="Close behavior log wizard">x</button>
+        </div>
+        <div class="wizard-progress" aria-label="Log wizard progress">
+          <div class="wizard-dot active" data-step-dot="0">1. Event</div>
+          <div class="wizard-dot" data-step-dot="1">2. Details</div>
+          <div class="wizard-dot" data-step-dot="2">3. Support</div>
+        </div>
+        <div class="wizard-body">
+          <div class="wizard-page" data-wizard-page="0">
+            <div class="wizard-group" data-log-group="antecedent">
+              <p>What happened before?</p>
+              <div class="pill-row">
+                <button class="pill active" data-value="Transition">Transition</button>
+                <button class="pill" data-value="Denied access">Denied access</button>
+                <button class="pill" data-value="Loud noise">Loud noise</button>
+                <button class="pill" data-value="Task demand">Task demand</button>
+              </div>
+            </div>
+            <div class="wizard-group" data-log-group="behavior">
+              <p>What behavior did you observe?</p>
+              <div class="pill-row">
+                <button class="pill active" data-value="Tantrum">Tantrum</button>
+                <button class="pill" data-value="Elopement">Elopement</button>
+                <button class="pill" data-value="Aggression">Aggression</button>
+                <button class="pill" data-value="Non-compliance">Non-compliance</button>
+              </div>
+            </div>
+            <div class="wizard-group" data-log-group="location">
+              <p>Where did it happen?</p>
+              <div class="pill-row">
+                <button class="pill active" data-value="Home">Home</button>
+                <button class="pill" data-value="School">School</button>
+                <button class="pill" data-value="Therapy">Therapy</button>
+                <button class="pill" data-value="Community">Community</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="wizard-page" data-wizard-page="1" hidden>
+            <div class="wizard-group" data-log-group="intensity">
+              <p>Intensity</p>
+              <div class="pill-row">
+                <button class="pill" data-value="1">1</button>
+                <button class="pill" data-value="2">2</button>
+                <button class="pill active" data-value="3">3</button>
+                <button class="pill" data-value="4">4</button>
+                <button class="pill" data-value="5">5</button>
+              </div>
+            </div>
+            <div class="wizard-group" data-log-group="duration">
+              <p>Duration</p>
+              <div class="pill-row">
+                <button class="pill" data-value="2 minutes">2m</button>
+                <button class="pill active" data-value="8 minutes">8m</button>
+                <button class="pill" data-value="15 minutes">15m</button>
+                <button class="pill" data-value="30 minutes">30m</button>
+              </div>
+            </div>
+            <div class="wizard-group">
+              <p>Optional note</p>
+              <textarea id="logNote" class="note-input">Transition away from tablet. Maya accepted visual schedule after one prompt.</textarea>
+            </div>
+          </div>
+
+          <div class="wizard-page" data-wizard-page="2" hidden>
+            <div class="wizard-group" data-log-group="consequence">
+              <p>What support helped?</p>
+              <div class="pill-row">
+                <button class="pill active" data-value="Visual schedule">Visual schedule</button>
+                <button class="pill" data-value="Quiet space">Quiet space</button>
+                <button class="pill" data-value="First/then">First/then</button>
+                <button class="pill" data-value="Prompted request">Prompted request</button>
+              </div>
+            </div>
+            <div class="wizard-summary">
+              <h3>Log preview</h3>
+              <p id="logPreview"></p>
+            </div>
+          </div>
+        </div>
+        <div class="wizard-actions">
+          <button id="logBack" class="button secondary">Back</button>
+          <button id="logNext" class="button">Next</button>
+        </div>
+      </section>
+    </div>
+    <div id="logToast" class="demo-toast" hidden>Behavior event saved to timeline.</div>
+
     <script>
+      const logWizard = document.getElementById("logWizard");
+      const logPreview = document.getElementById("logPreview");
+      const logNote = document.getElementById("logNote");
+      const logToast = document.getElementById("logToast");
+      const logState = {
+        step: 0,
+        antecedent: "Transition",
+        behavior: "Tantrum",
+        location: "Home",
+        intensity: "3",
+        duration: "8 minutes",
+        consequence: "Visual schedule"
+      };
+      let savedLogCount = 3;
+
+      function durationShort(value) {
+        return value.replace(" minutes", "m").replace(" minute", "m");
+      }
+
+      function renderLogWizard() {
+        document.querySelectorAll("[data-wizard-page]").forEach((page) => {
+          page.hidden = Number(page.dataset.wizardPage) !== logState.step;
+        });
+        document.querySelectorAll("[data-step-dot]").forEach((dot) => {
+          dot.classList.toggle("active", Number(dot.dataset.stepDot) === logState.step);
+        });
+        document.getElementById("logBack").textContent = logState.step === 0 ? "Cancel" : "Back";
+        document.getElementById("logNext").textContent = logState.step === 2 ? "Save Event" : "Next";
+        logPreview.textContent = `${logState.behavior} after ${logState.antecedent.toLowerCase()} at ${logState.location}. Intensity ${logState.intensity}/5 for ${logState.duration}. ${logState.consequence} is recorded as the support that may have helped.`;
+      }
+
+      function openLogWizard() {
+        logWizard.hidden = false;
+        logState.step = 0;
+        renderLogWizard();
+      }
+
+      function closeLogWizard() {
+        logWizard.hidden = true;
+      }
+
+      function saveLogEvent() {
+        const timeline = document.getElementById("teamTimeline");
+        const note = document.createElement("article");
+        note.className = "note";
+        const noteText = logNote.value.trim() || "No additional note entered.";
+        note.innerHTML = `
+          <div class="note-head">
+            <div class="note-id"><span class="avatar">L</span><div><h3>Behavior Log</h3><small>Now</small></div></div>
+            <span class="badge">${logState.location}</span>
+          </div>
+          <p>${logState.behavior} logged after ${logState.antecedent.toLowerCase()}. Intensity ${logState.intensity}/5, duration ${logState.duration}. Support used: ${logState.consequence}. ${noteText}</p>
+        `;
+        timeline.prepend(note);
+        savedLogCount += 1;
+        document.getElementById("frequencyMetric").textContent = savedLogCount;
+        document.getElementById("durationMetric").textContent = durationShort(logState.duration);
+        document.getElementById("intensityMetric").textContent = `${logState.intensity}/5`;
+        closeLogWizard();
+        logToast.hidden = false;
+        window.setTimeout(() => {
+          logToast.hidden = true;
+        }, 2200);
+      }
+
+      document.querySelectorAll(".open-log-wizard").forEach((button) => {
+        button.addEventListener("click", openLogWizard);
+      });
+      document.getElementById("closeLogWizard").addEventListener("click", closeLogWizard);
+      logWizard.addEventListener("click", (event) => {
+        if (event.target === logWizard) closeLogWizard();
+      });
+      document.querySelectorAll("[data-log-group]").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          const button = event.target.closest(".pill");
+          if (!button) return;
+          group.querySelectorAll(".pill").forEach((pill) => pill.classList.remove("active"));
+          button.classList.add("active");
+          logState[group.dataset.logGroup] = button.dataset.value;
+          renderLogWizard();
+        });
+      });
+      logNote.addEventListener("input", renderLogWizard);
+      document.getElementById("logBack").addEventListener("click", () => {
+        if (logState.step === 0) {
+          closeLogWizard();
+          return;
+        }
+        logState.step -= 1;
+        renderLogWizard();
+      });
+      document.getElementById("logNext").addEventListener("click", () => {
+        if (logState.step === 2) {
+          saveLogEvent();
+          return;
+        }
+        logState.step += 1;
+        renderLogWizard();
+      });
+      renderLogWizard();
+
       const sleep = document.getElementById("sleep");
       const sensory = document.getElementById("sensory");
       const communication = document.getElementById("communication");
@@ -1546,6 +2049,155 @@
       });
 
       renderPlanner();
+
+      const reportState = {
+        range: "Week",
+        focus: "Tantrum",
+        audience: "Parent"
+      };
+
+      const rangeMeta = {
+        Week: { label: "Weekly", events: 18, badge: "Weekly report" },
+        Month: { label: "Monthly", events: 64, badge: "Monthly report" },
+        Quarter: { label: "90-day", events: 171, badge: "90-day report" }
+      };
+
+      const focusMeta = {
+        Tantrum: {
+          window: "3-5 PM",
+          support: "Visual schedule",
+          trend: "down 9%",
+          findings: [
+            "Tantrum events appear more likely during transitions away from preferred activities.",
+            "Intensity appears lower when visual schedules are introduced before the transition.",
+            "Sleep below baseline may contribute to longer recovery time."
+          ],
+          supports: [
+            "Preview the transition with a first/then board.",
+            "Offer one regulated choice before removing the preferred activity.",
+            "Track sleep and afternoon transition demands together."
+          ]
+        },
+        Elopement: {
+          window: "12-2 PM",
+          support: "Communication card",
+          trend: "up 6%",
+          findings: [
+            "Elopement risk appears higher in busier shared spaces.",
+            "Events are more common when communication attempts are missed or delayed.",
+            "Proximity support appears helpful during unstructured movement."
+          ],
+          supports: [
+            "Offer a break card before entering crowded spaces.",
+            "Use a clear wait boundary and a known safe destination.",
+            "Pre-teach where to go when a break is needed."
+          ]
+        },
+        Aggression: {
+          window: "9-11 AM",
+          support: "Prompted request",
+          trend: "flat",
+          findings: [
+            "Aggression appears more likely when task demands increase quickly.",
+            "Prompted functional requests may reduce escalation when used early.",
+            "Shorter first steps appear to improve task re-entry."
+          ],
+          supports: [
+            "Prompt a help or break request before repeating the demand.",
+            "Start with a smaller task step and a visible finish point.",
+            "Reinforce calm communication before increasing effort."
+          ]
+        },
+        Transitions: {
+          window: "8-10 AM",
+          support: "Countdown routine",
+          trend: "down 12%",
+          findings: [
+            "Transition difficulty appears lower when the next activity is shown visually.",
+            "Morning routines show better follow-through with consistent countdown cues.",
+            "Unexpected changes may still increase support needs."
+          ],
+          supports: [
+            "Use the same two-minute countdown language across settings.",
+            "Show the next activity before ending the current one.",
+            "Prepare a backup choice for unexpected schedule changes."
+          ]
+        }
+      };
+
+      const audienceTone = {
+        Parent: "caregiver-friendly language with practical next steps",
+        BCBA: "clinical review language with trend and intervention notes",
+        Teacher: "school-focused language with classroom support ideas"
+      };
+
+      const reportTitle = document.getElementById("reportTitle");
+      const reportSummary = document.getElementById("reportSummary");
+      const reportBadge = document.getElementById("reportBadge");
+      const reportEvents = document.getElementById("reportEvents");
+      const reportWindow = document.getElementById("reportWindow");
+      const reportSupport = document.getElementById("reportSupport");
+      const reportFindings = document.getElementById("reportFindings");
+      const reportSupports = document.getElementById("reportSupports");
+      const copyStatus = document.getElementById("copyStatus");
+
+      function currentReportText() {
+        const range = rangeMeta[reportState.range];
+        const focus = focusMeta[reportState.focus];
+        return `${range.label} ${reportState.audience} Summary\n\nFocus: ${reportState.focus}\nEvents: ${range.events}\nTop window: ${focus.window}\nMost helpful support: ${focus.support}\nTrend: ${focus.trend}\n\nPattern highlights:\n- ${focus.findings.join("\n- ")}\n\nSuggested next supports:\n- ${focus.supports.join("\n- ")}\n\nDemo note: fictional data only, not diagnostic.`;
+      }
+
+      function renderReport() {
+        const range = rangeMeta[reportState.range];
+        const focus = focusMeta[reportState.focus];
+        reportTitle.textContent = `${range.label} ${reportState.audience.toLowerCase()} summary`;
+        reportBadge.textContent = range.badge;
+        reportSummary.textContent = `${range.label} review suggests ${reportState.focus.toLowerCase()} patterns may be most connected to the ${focus.window} window. This version is written in ${audienceTone[reportState.audience]}.`;
+        reportEvents.textContent = range.events;
+        reportWindow.textContent = focus.window;
+        reportSupport.textContent = focus.support;
+        reportFindings.innerHTML = focus.findings.map((item) => `<li>${item}</li>`).join("");
+        reportSupports.innerHTML = focus.supports.map((item) => `<li>${item}</li>`).join("");
+        copyStatus.textContent = "";
+      }
+
+      document.querySelectorAll("[data-report-group]").forEach((group) => {
+        group.addEventListener("click", (event) => {
+          const button = event.target.closest(".pill");
+          if (!button) return;
+          group.querySelectorAll(".pill").forEach((pill) => pill.classList.remove("active"));
+          button.classList.add("active");
+          reportState[group.dataset.reportGroup] = button.dataset.value;
+          renderReport();
+        });
+      });
+
+      document.getElementById("copyReport").addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(currentReportText());
+          copyStatus.textContent = "Report text copied.";
+        } catch {
+          copyStatus.textContent = "Report text is generated in the demo preview.";
+        }
+      });
+
+      document.getElementById("addReportNote").addEventListener("click", () => {
+        const range = rangeMeta[reportState.range];
+        const focus = focusMeta[reportState.focus];
+        const timeline = document.getElementById("teamTimeline");
+        const note = document.createElement("article");
+        note.className = "note";
+        note.innerHTML = `
+          <div class="note-head">
+            <div class="note-id"><span class="avatar">R</span><div><h3>Report</h3><small>Now</small></div></div>
+            <span class="badge">${reportState.audience}</span>
+          </div>
+          <p>${range.label} ${reportState.focus.toLowerCase()} summary added for team review. ${focus.support} appears to be a suggested next support based on fictional demo data.</p>
+        `;
+        timeline.prepend(note);
+      });
+
+      renderReport();
     </script>
   </body>
 </html>
