@@ -43,6 +43,32 @@
         touch-action: manipulation;
       }
 
+      body.large-text {
+        font-size: 1.08rem;
+      }
+
+      body.high-contrast {
+        --ink: #10131f;
+        --mist: #ffffff;
+        --sea: #2047d9;
+        --sky: #007a8a;
+        --leaf: #05744f;
+        --sun: #a15c00;
+        --coral: #b91c1c;
+        --plum: #6840b8;
+        --line: rgba(16, 19, 31, 0.24);
+      }
+
+      body.simple-view .two-col,
+      body.simple-view .report-columns,
+      body.simple-view .guardrails {
+        display: none;
+      }
+
+      body.simple-view .panel {
+        box-shadow: none;
+      }
+
       .demo-banner {
         position: sticky;
         top: 0;
@@ -109,6 +135,10 @@
         border-color: var(--sea);
         background: var(--sea);
         color: white;
+      }
+
+      .scroll-target {
+        scroll-margin-top: 24px;
       }
 
       .content {
@@ -221,6 +251,15 @@
         padding: 22px;
       }
 
+      .access-modal {
+        width: min(560px, 100%);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 24px 70px rgba(45, 49, 66, 0.22);
+        padding: 22px;
+      }
+
       .modal-top {
         display: flex;
         align-items: flex-start;
@@ -324,6 +363,43 @@
         padding: 14px 16px;
         font-weight: 900;
         box-shadow: var(--shadow);
+      }
+
+      .access-options {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .access-option {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--mist);
+        padding: 14px;
+        cursor: pointer;
+      }
+
+      .access-option input {
+        width: 26px;
+        height: 26px;
+        accent-color: var(--sea);
+      }
+
+      .access-option strong,
+      .access-option span {
+        display: block;
+      }
+
+      .access-option span {
+        margin-top: 3px;
+        color: rgba(45, 49, 66, 0.68);
+        font-size: 0.88rem;
+        font-weight: 720;
+        line-height: 1.35;
       }
 
       .button .glyph,
@@ -1189,16 +1265,16 @@
       <aside class="rail" aria-label="Primary navigation">
         <div class="logo" aria-label="Platform logo">BI</div>
         <nav class="nav">
-          <button class="icon-button active" title="Home"><span class="glyph">H</span></button>
-          <button class="icon-button open-log-wizard" title="Log"><span class="glyph">+</span></button>
-          <button class="icon-button" title="Insights"><span class="glyph">*</span></button>
-          <button class="icon-button" title="Team"><span class="glyph">T</span></button>
+          <button class="icon-button active" title="Home" data-nav-button data-nav-key="home" data-scroll-target="homeSection" aria-label="Home dashboard"><span class="glyph">H</span></button>
+          <button class="icon-button open-log-wizard" title="Log" data-nav-button data-nav-key="log" aria-label="Open behavior log"><span class="glyph">+</span></button>
+          <button class="icon-button" title="Insights" data-nav-button data-nav-key="insights" data-scroll-target="insightsSection" aria-label="Go to insights"><span class="glyph">*</span></button>
+          <button class="icon-button" title="Team" data-nav-button data-nav-key="team" data-scroll-target="teamSection" aria-label="Go to care team"><span class="glyph">T</span></button>
         </nav>
-        <button class="icon-button" title="Voice support"><span class="glyph">V</span></button>
+        <button id="accessibilityToggle" class="icon-button" title="Accessibility" data-nav-button data-nav-key="access" aria-label="Open accessibility settings"><span class="glyph">V</span></button>
       </aside>
 
       <section class="content">
-        <header class="topbar">
+        <header id="homeSection" class="topbar scroll-target">
           <div>
             <p class="eyebrow">Behavioral Intelligence Platform</p>
             <h1>Maya is having a steady morning.</h1>
@@ -1252,7 +1328,7 @@
             </div>
           </section>
 
-          <section class="panel span-8">
+          <section id="insightsSection" class="panel span-8 scroll-target">
             <div class="panel-head">
               <div>
                 <p class="eyebrow">AI-Assisted Pattern Detection</p>
@@ -1332,7 +1408,7 @@
             </div>
           </section>
 
-          <section class="panel span-12">
+          <section id="plannerSection" class="panel span-12 scroll-target">
             <div class="panel-head">
               <div>
                 <p class="eyebrow">Try Next Planner</p>
@@ -1484,7 +1560,7 @@
             <div id="story" class="story"></div>
           </section>
 
-          <section class="panel span-12">
+          <section id="reportSection" class="panel span-12 scroll-target">
             <div class="panel-head">
               <div>
                 <p class="eyebrow">Behavior Report Generator</p>
@@ -1547,7 +1623,7 @@
             </div>
           </section>
 
-          <section class="panel span-7">
+          <section id="teamSection" class="panel span-7 scroll-target">
             <div class="panel-head">
               <div>
                 <p class="eyebrow">Care Team Dashboard</p>
@@ -1593,7 +1669,7 @@
                   <div class="program-row"><span>Transition routine</span><b>+11%</b></div>
                   <div class="track"><div class="fill" style="width: 64%"></div></div>
                 </div>
-                <button class="button" style="width: 100%; margin-top: 24px">Review Report</button>
+                <button class="button" data-scroll-target="reportSection" data-nav-key="insights" style="width: 100%; margin-top: 24px">Review Report</button>
               </div>
             </div>
           </section>
@@ -1708,6 +1784,34 @@
         </div>
       </section>
     </div>
+    <div id="accessibilityPanel" class="modal-backdrop" hidden>
+      <section class="access-modal" role="dialog" aria-modal="true" aria-labelledby="accessibilityTitle">
+        <div class="modal-top">
+          <div>
+            <p class="eyebrow">Accessibility</p>
+            <h2 id="accessibilityTitle">Display and voice support</h2>
+            <p class="subcopy">Demo controls for a calmer, more readable tablet experience.</p>
+          </div>
+          <button id="closeAccessibilityPanel" class="close-button" aria-label="Close accessibility settings">x</button>
+        </div>
+        <div class="access-options">
+          <label class="access-option">
+            <input type="checkbox" data-body-class="large-text" />
+            <span><strong>Larger text</strong><span>Increases interface text size for easier scanning.</span></span>
+          </label>
+          <label class="access-option">
+            <input type="checkbox" data-body-class="high-contrast" />
+            <span><strong>High contrast</strong><span>Sharpens borders and color contrast across the dashboard.</span></span>
+          </label>
+          <label class="access-option">
+            <input type="checkbox" data-body-class="simple-view" />
+            <span><strong>Simpler view</strong><span>Hides secondary chart details and keeps the main care actions visible.</span></span>
+          </label>
+        </div>
+        <button id="readSummary" class="button" style="width: 100%; margin-top: 16px">Read Current Summary</button>
+        <p id="accessStatus" class="copy-status"></p>
+      </section>
+    </div>
     <div id="logToast" class="demo-toast" hidden>Behavior event saved to timeline.</div>
 
     <script>
@@ -1715,6 +1819,8 @@
       const logPreview = document.getElementById("logPreview");
       const logNote = document.getElementById("logNote");
       const logToast = document.getElementById("logToast");
+      const accessibilityPanel = document.getElementById("accessibilityPanel");
+      const accessStatus = document.getElementById("accessStatus");
       const logState = {
         step: 0,
         antecedent: "Transition",
@@ -1742,14 +1848,36 @@
         logPreview.textContent = `${logState.behavior} after ${logState.antecedent.toLowerCase()} at ${logState.location}. Intensity ${logState.intensity}/5 for ${logState.duration}. ${logState.consequence} is recorded as the support that may have helped.`;
       }
 
+      function setActiveNav(key) {
+        document.querySelectorAll("[data-nav-button]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.navKey === key);
+        });
+      }
+
+      function scrollToSection(targetId) {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
       function openLogWizard() {
         logWizard.hidden = false;
         logState.step = 0;
+        setActiveNav("log");
         renderLogWizard();
       }
 
       function closeLogWizard() {
         logWizard.hidden = true;
+      }
+
+      function openAccessibilityPanel() {
+        accessibilityPanel.hidden = false;
+        setActiveNav("access");
+      }
+
+      function closeAccessibilityPanel() {
+        accessibilityPanel.hidden = true;
       }
 
       function saveLogEvent() {
@@ -1779,9 +1907,35 @@
       document.querySelectorAll(".open-log-wizard").forEach((button) => {
         button.addEventListener("click", openLogWizard);
       });
+      document.querySelectorAll("[data-scroll-target]").forEach((button) => {
+        button.addEventListener("click", () => {
+          scrollToSection(button.dataset.scrollTarget);
+          if (button.dataset.navKey) setActiveNav(button.dataset.navKey);
+        });
+      });
       document.getElementById("closeLogWizard").addEventListener("click", closeLogWizard);
       logWizard.addEventListener("click", (event) => {
         if (event.target === logWizard) closeLogWizard();
+      });
+      document.getElementById("accessibilityToggle").addEventListener("click", openAccessibilityPanel);
+      document.getElementById("closeAccessibilityPanel").addEventListener("click", closeAccessibilityPanel);
+      accessibilityPanel.addEventListener("click", (event) => {
+        if (event.target === accessibilityPanel) closeAccessibilityPanel();
+      });
+      document.querySelectorAll("[data-body-class]").forEach((toggle) => {
+        toggle.addEventListener("change", () => {
+          document.body.classList.toggle(toggle.dataset.bodyClass, toggle.checked);
+        });
+      });
+      document.getElementById("readSummary").addEventListener("click", () => {
+        const summary = `Maya is having a steady morning. Current risk is ${document.getElementById("riskBadge").textContent} with a score of ${document.getElementById("score").textContent}. ${document.getElementById("supportHint").textContent}`;
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(new SpeechSynthesisUtterance(summary));
+          accessStatus.textContent = "Reading the current summary aloud.";
+        } else {
+          accessStatus.textContent = summary;
+        }
       });
       document.querySelectorAll("[data-log-group]").forEach((group) => {
         group.addEventListener("click", (event) => {
